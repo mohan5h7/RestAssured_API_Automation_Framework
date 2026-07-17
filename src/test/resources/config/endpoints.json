@@ -1,0 +1,25 @@
+{
+  "booker": {
+    "auth": "/auth",
+    "booking": "/booking",
+    "bookingById": "/booking/{bookingId}"
+  },
+  "grocery": {
+    "products": "/products"
+  }
+}
+
+/*
+Tomorrow if your client adds:
+
+Employee
+Customer
+Orders
+Invoice
+Payment
+
+You only update this JSON.
+
+No Java code.
+
+*/
