@@ -4,7 +4,7 @@ import org.apache.logging.log4j.Logger;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
-import commonutils.LoggerManager;
+import logging.LoggerManager;
 
 public class RetryAnalyzer implements IRetryAnalyzer {
 

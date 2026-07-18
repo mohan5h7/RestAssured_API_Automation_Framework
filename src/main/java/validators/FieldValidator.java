@@ -1,9 +1,11 @@
 package validators;
 
-import commonutils.ExtentTestManager;
-import commonutils.LoggerManager;
+import reporting.ExtentTestManager;
+
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
+
+import logging.LoggerManager;
 
 import java.util.Collection;
 import java.util.Map;

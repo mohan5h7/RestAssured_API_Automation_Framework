@@ -1,9 +1,10 @@
 package validators;
 
-import commonutils.ExtentTestManager;
-import commonutils.LoggerManager;
 import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
+import logging.LoggerManager;
+import reporting.ExtentTestManager;
+
 import org.apache.logging.log4j.Logger;
 import org.testng.Assert;
 

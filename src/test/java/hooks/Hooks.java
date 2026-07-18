@@ -1,13 +1,13 @@
 package hooks;
 
 import base.BaseTest;
-import commonutils.ExtentManager;
-import commonutils.ExtentTestManager;
 import config.ConfigManager;
 import context.ApiContext;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
+import reporting.ExtentManager;
+import reporting.ExtentTestManager;
 
 public class Hooks {
 

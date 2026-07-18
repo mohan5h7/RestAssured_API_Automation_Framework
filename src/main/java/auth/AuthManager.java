@@ -1,10 +1,10 @@
 package auth;
 
-import commonutils.JsonReader;
 import config.ConfigManager;
-import factory.RequestSpecificationFactory;
+import config.EndpointManager;
 import io.restassured.response.Response;
-import manager.EndpointManager;
+import specification.RequestSpecificationFactory;
+import utils.JsonReader;
 
 import java.util.HashMap;
 import java.util.Map;

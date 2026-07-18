@@ -1,12 +1,14 @@
 package listeners;
 
-import commonutils.ExtentManager;
-import commonutils.ExtentTestManager;
-import commonutils.LoggerManager;
+import reporting.ExtentManager;
+import reporting.ExtentTestManager;
+
 import org.apache.logging.log4j.Logger;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
+
+import logging.LoggerManager;
 
 /**
  * Enterprise TestNG Listener
