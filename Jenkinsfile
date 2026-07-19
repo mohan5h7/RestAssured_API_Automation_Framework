@@ -22,8 +22,9 @@ pipeline {
 
         stage('Archive Reports') {
             steps {
-                archiveArtifacts artifacts: 'Reports/**', allowEmptyArchive: true
-                archiveArtifacts artifacts: 'test-output/**', allowEmptyArchive: true
+               archiveArtifacts artifacts: 'Reports/**', allowEmptyArchive: true
+        archiveArtifacts artifacts: 'test-output/**', allowEmptyArchive: true
+        archiveArtifacts artifacts: 'logs/**', allowEmptyArchive: true
             }
         }
     }

@@ -8,18 +8,14 @@ import logging.ApiLoggingFilter;
 
 public final class RequestSpecificationFactory {
 
-    private RequestSpecificationFactory() {
-    }
+	private RequestSpecificationFactory() {
+	}
 
-    public static RequestSpecification getRequestSpecification(String baseUrl) {
+	public static RequestSpecification getRequestSpecification(String baseUrl) {
 
-        RequestSpecification specification =
-                new RequestSpecBuilder()
-                        .setBaseUri(baseUrl)
-                        .setContentType(ContentType.JSON)
-                        .addFilter(new ApiLoggingFilter())
-                        .build();
+		RequestSpecification specification = new RequestSpecBuilder().setBaseUri(baseUrl)
+				.setContentType(ContentType.JSON).addFilter(new ApiLoggingFilter()).build();
 
-        return RestAssured.given().spec(specification);
-    }
+		return RestAssured.given().spec(specification);
+	}
 }

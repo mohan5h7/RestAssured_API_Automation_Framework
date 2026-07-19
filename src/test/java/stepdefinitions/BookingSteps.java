@@ -13,44 +13,43 @@ import pojo.booking.CreateBookingResponse;
 
 public class BookingSteps {
 
-    private BookingRequest requestBody;
+	private BookingRequest requestBody;
 
-    @Given("I load request body from {string}")
-    public void i_load_request_body_from(String requestFile) {
+	@Given("I load request body from {string}")
+	public void i_load_request_body_from(String requestFile) {
 
-        requestBody = ApiExecutor.loadRequest(
-                requestFile,
-                BookingRequest.class);
-    }
+		requestBody = ApiExecutor.loadRequest(requestFile, BookingRequest.class);
+	}
 
-    @When("I send a POST request to endpoint {string}")
-    public void i_send_a_post_request_to_endpoint(String endpointKey) {
+	@When("I send a POST request to endpoint {string}")
+	public void i_send_a_post_request_to_endpoint(String endpointKey) {
 
-        ApiExecutor.execute(
-                endpointKey,
-                HttpMethod.POST,
-                ConfigManager.getProperty("booker.base.url"),
-                requestBody);
-    }
+		ApiExecutor.execute(endpointKey, HttpMethod.POST, ConfigManager.getProperty("booker.base.url"), requestBody,
+				null);
+	}
 
-    @Then("the response status code should be {int}")
-    public void the_response_status_code_should_be(Integer statusCode) {
+	@Then("the create booking response status code should be {int}")
+	public void the_response_status_code_should_be(Integer statusCode) {
 
-        ApiExecutor.validateStatusCode(statusCode);
-    }
+		ApiExecutor.validateStatusCode(statusCode);
+	}
 
-    @Then("the response should contain field {string}")
-    public void the_response_should_contain_field(String jsonPath) {
+	@Then("the create booking response should contain field {string}")
+	public void the_response_should_contain_field(String jsonPath) {
 
-        ApiExecutor.validateFieldExists(jsonPath);
-    }
+		ApiExecutor.validateFieldExists(jsonPath);
+	}
 
-    @Then("the response should match {string}")
-    public void the_response_should_match(String expectedJson) {
+	@Then("the create booking response should match {string}")
+	public void the_response_should_match(String expectedJson) {
 
-        ApiExecutor.validatePojo(
-                expectedJson,
-                CreateBookingResponse.class,
-                Set.of("bookingid"));
-    }
+		ApiExecutor.validatePojo(expectedJson, CreateBookingResponse.class, Set.of("bookingid"));
+	}
+
+	@Then("I store create booking response field {string} as {string}")
+	public void i_store_response_field_as(String jsonPath, String contextKey) {
+
+		ApiExecutor.storeResponseField(jsonPath, contextKey);
+
+	}
 }

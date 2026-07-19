@@ -1,5 +1,7 @@
 package runners;
 
+import org.testng.annotations.DataProvider;
+
 import io.cucumber.testng.AbstractTestNGCucumberTests;
 import io.cucumber.testng.CucumberOptions;
 
@@ -9,7 +11,6 @@ import io.cucumber.testng.CucumberOptions;
                 "stepdefinitions",
                 "hooks"
         },
-        tags = "@Booking",
         plugin = {
                 "pretty",
                 "html:target/cucumber-reports/cucumber.html",
@@ -19,4 +20,9 @@ import io.cucumber.testng.CucumberOptions;
 )
 public class TestRunner extends AbstractTestNGCucumberTests {
 
+    @Override
+    @DataProvider(parallel = true)
+    public Object[][] scenarios() {
+        return super.scenarios();
+    }
 }

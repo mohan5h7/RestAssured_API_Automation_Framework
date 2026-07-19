@@ -15,267 +15,177 @@ import java.util.Set;
 
 public final class ResponseValidator {
 
-    private static final Logger LOGGER =
-            LoggerManager.getLogger(ResponseValidator.class);
+	private static final Logger LOGGER = LoggerManager.getLogger(ResponseValidator.class);
 
-    private ResponseValidator() {
-    }
+	private ResponseValidator() {
+	}
 
-    public static void validateStatusCode(Response response,
-                                          int expectedStatusCode) {
+	public static void validateStatusCode(Response response, int expectedStatusCode) {
 
-        Assert.assertNotNull(response, "Response cannot be null");
+		Assert.assertNotNull(response, "Response cannot be null");
 
-        Assert.assertEquals(
-                response.getStatusCode(),
-                expectedStatusCode,
-                "Status code mismatch");
+		Assert.assertEquals(response.getStatusCode(), expectedStatusCode, "Status code mismatch");
 
-        LOGGER.info("Status Code Validation Passed. Expected: {}, Actual: {}",
-                expectedStatusCode,
-                response.getStatusCode());
+		LOGGER.info("Status Code Validation Passed. Expected: {}, Actual: {}", expectedStatusCode,
+				response.getStatusCode());
 
-        ExtentTestManager.pass(
-                "Status Code Validation Passed. Expected: "
-                        + expectedStatusCode
-                        + ", Actual: "
-                        + response.getStatusCode());
-    }
+		ExtentTestManager.pass("Status Code Validation Passed. Expected: " + expectedStatusCode + ", Actual: "
+				+ response.getStatusCode());
+	}
 
-    public static void validateResponseTime(Response response,
-                                            long maxResponseTime) {
+	public static void validateResponseTime(Response response, long maxResponseTime) {
 
-        Assert.assertNotNull(response, "Response cannot be null");
+		Assert.assertNotNull(response, "Response cannot be null");
 
-        Assert.assertTrue(
-                response.getTime() <= maxResponseTime,
-                "Response time exceeded : " + response.getTime());
+		Assert.assertTrue(response.getTime() <= maxResponseTime, "Response time exceeded : " + response.getTime());
 
-        LOGGER.info("Response Time Validation Passed. Time: {} ms",
-                response.getTime());
+		LOGGER.info("Response Time Validation Passed. Time: {} ms", response.getTime());
 
-        ExtentTestManager.pass(
-                "Response Time Validation Passed. Time: "
-                        + response.getTime()
-                        + " ms");
-    }
+		ExtentTestManager.pass("Response Time Validation Passed. Time: " + response.getTime() + " ms");
+	}
 
-    public static void validateSchema(Response response,
-                                      String schemaPath) {
+	public static void validateSchema(Response response, String schemaPath) {
 
-        Assert.assertNotNull(response, "Response cannot be null");
+		Assert.assertNotNull(response, "Response cannot be null");
 
-        response.then().assertThat().body(
-                JsonSchemaValidator.matchesJsonSchema(
-                        new File(schemaPath)));
+		response.then().assertThat().body(JsonSchemaValidator.matchesJsonSchema(new File(schemaPath)));
 
-        LOGGER.info("Schema Validation Passed : {}", schemaPath);
+		LOGGER.info("Schema Validation Passed : {}", schemaPath);
 
-        ExtentTestManager.pass(
-                "Schema Validation Passed : " + schemaPath);
-    }
+		ExtentTestManager.pass("Schema Validation Passed : " + schemaPath);
+	}
 
-    // Keep remaining methods exactly the same,
-    // but add LOGGER.info(...) and ExtentTestManager.pass(...)
-    // after successful validation.
-    
-    
-    
-    
-    
-    /**
-     * Validate Complete POJO.
-     */
-    public static void validatePojo(Object actual,
-                                    Object expected) {
 
-        ReflectionComparator.compare(actual, expected);
+	/**
+	 * Validate Complete POJO.
+	 */
+	public static void validatePojo(Object actual, Object expected) {
 
-        LOGGER.info("POJO Validation Passed");
+		ReflectionComparator.compare(actual, expected);
 
-        ExtentTestManager.pass("POJO Validation Passed");
-    }
+		LOGGER.info("POJO Validation Passed");
 
-    /**
-     * Validate POJO with ignored fields.
-     */
-    public static void validatePojo(Object actual,
-                                    Object expected,
-                                    Set<String> ignoreFields) {
+		ExtentTestManager.pass("POJO Validation Passed");
+	}
 
-        ReflectionComparator.compare(
-                actual,
-                expected,
-                ignoreFields);
+	/**
+	 * Validate POJO with ignored fields.
+	 */
+	public static void validatePojo(Object actual, Object expected, Set<String> ignoreFields) {
 
-        LOGGER.info("POJO Validation Passed. Ignored Fields : {}", ignoreFields);
+		ReflectionComparator.compare(actual, expected, ignoreFields);
 
-        ExtentTestManager.pass(
-                "POJO Validation Passed. Ignored Fields : " + ignoreFields);
-    }
+		LOGGER.info("POJO Validation Passed. Ignored Fields : {}", ignoreFields);
 
-    /**
-     * Validate Single Field.
-     */
-    public static void validateField(Object actual,
-                                     Object expected,
-                                     String fieldName) {
+		ExtentTestManager.pass("POJO Validation Passed. Ignored Fields : " + ignoreFields);
+	}
 
-        FieldValidator.validateEquals(
-                actual,
-                expected,
-                fieldName);
+	/**
+	 * Validate Single Field.
+	 */
+	public static void validateField(Object actual, Object expected, String fieldName) {
 
-        LOGGER.info("Field Validation Passed : {}", fieldName);
+		FieldValidator.validateEquals(actual, expected, fieldName);
 
-        ExtentTestManager.pass(
-                "Field Validation Passed : " + fieldName);
-    }
+		LOGGER.info("Field Validation Passed : {}", fieldName);
 
-    /**
-     * Validate JSONPath value.
-     */
-    public static void validateJsonPath(Response response,
-                                        String jsonPath,
-                                        Object expected) {
+		ExtentTestManager.pass("Field Validation Passed : " + fieldName);
+	}
 
-        JsonPathValidator.validateValue(
-                response,
-                jsonPath,
-                expected);
+	/**
+	 * Validate JSONPath value.
+	 */
+	public static void validateJsonPath(Response response, String jsonPath, Object expected) {
 
-        LOGGER.info("JsonPath Validation Passed : {}", jsonPath);
+		JsonPathValidator.validateValue(response, jsonPath, expected);
 
-        ExtentTestManager.pass(
-                "JsonPath Validation Passed : " + jsonPath);
-    }
+		LOGGER.info("JsonPath Validation Passed : {}", jsonPath);
 
-    /**
-     * Validate JSONPath not null.
-     */
-    public static void validateJsonPathNotNull(Response response,
-                                               String jsonPath) {
+		ExtentTestManager.pass("JsonPath Validation Passed : " + jsonPath);
+	}
 
-        JsonPathValidator.validateNotNull(
-                response,
-                jsonPath);
+	/**
+	 * Validate JSONPath not null.
+	 */
+	public static void validateJsonPathNotNull(Response response, String jsonPath) {
 
-        LOGGER.info("JsonPath Not Null Validation Passed : {}", jsonPath);
+		JsonPathValidator.validateNotNull(response, jsonPath);
 
-        ExtentTestManager.pass(
-                "JsonPath Not Null Validation Passed : " + jsonPath);
-    }
+		LOGGER.info("JsonPath Not Null Validation Passed : {}", jsonPath);
 
-    /**
-     * Validate Collection Size.
-     */
-    public static void validateCollectionSize(
-            Collection<?> collection,
-            int expectedSize,
-            String fieldName) {
+		ExtentTestManager.pass("JsonPath Not Null Validation Passed : " + jsonPath);
+	}
 
-        FieldValidator.validateSize(
-                collection,
-                expectedSize,
-                fieldName);
+	/**
+	 * Validate Collection Size.
+	 */
+	public static void validateCollectionSize(Collection<?> collection, int expectedSize, String fieldName) {
 
-        LOGGER.info("Collection Size Validation Passed : {}", fieldName);
+		FieldValidator.validateSize(collection, expectedSize, fieldName);
 
-        ExtentTestManager.pass(
-                "Collection Size Validation Passed : " + fieldName);
-    }
+		LOGGER.info("Collection Size Validation Passed : {}", fieldName);
 
-    /**
-     * Validate Map Size.
-     */
-    public static void validateMapSize(
-            Map<?, ?> map,
-            int expectedSize,
-            String fieldName) {
+		ExtentTestManager.pass("Collection Size Validation Passed : " + fieldName);
+	}
 
-        FieldValidator.validateSize(
-                map,
-                expectedSize,
-                fieldName);
+	/**
+	 * Validate Map Size.
+	 */
+	public static void validateMapSize(Map<?, ?> map, int expectedSize, String fieldName) {
 
-        LOGGER.info("Map Size Validation Passed : {}", fieldName);
+		FieldValidator.validateSize(map, expectedSize, fieldName);
 
-        ExtentTestManager.pass(
-                "Map Size Validation Passed : " + fieldName);
-    }
+		LOGGER.info("Map Size Validation Passed : {}", fieldName);
 
-    /**
-     * Validate Collection Empty.
-     */
-    public static void validateEmpty(
-            Collection<?> collection,
-            String fieldName) {
+		ExtentTestManager.pass("Map Size Validation Passed : " + fieldName);
+	}
 
-        FieldValidator.validateEmpty(
-                collection,
-                fieldName);
+	/**
+	 * Validate Collection Empty.
+	 */
+	public static void validateEmpty(Collection<?> collection, String fieldName) {
 
-        LOGGER.info("Collection Empty Validation Passed : {}", fieldName);
+		FieldValidator.validateEmpty(collection, fieldName);
 
-        ExtentTestManager.pass(
-                "Collection Empty Validation Passed : " + fieldName);
-    }
+		LOGGER.info("Collection Empty Validation Passed : {}", fieldName);
 
-    /**
-     * Validate Collection Not Empty.
-     */
-    public static void validateNotEmpty(
-            Collection<?> collection,
-            String fieldName) {
+		ExtentTestManager.pass("Collection Empty Validation Passed : " + fieldName);
+	}
 
-        FieldValidator.validateNotEmpty(
-                collection,
-                fieldName);
+	/**
+	 * Validate Collection Not Empty.
+	 */
+	public static void validateNotEmpty(Collection<?> collection, String fieldName) {
 
-        LOGGER.info("Collection Not Empty Validation Passed : {}", fieldName);
+		FieldValidator.validateNotEmpty(collection, fieldName);
 
-        ExtentTestManager.pass(
-                "Collection Not Empty Validation Passed : " + fieldName);
-    }
+		LOGGER.info("Collection Not Empty Validation Passed : {}", fieldName);
 
-    /**
-     * Validate Object Null.
-     */
-    public static void validateNull(
-            Object actual,
-            String fieldName) {
+		ExtentTestManager.pass("Collection Not Empty Validation Passed : " + fieldName);
+	}
 
-        FieldValidator.validateNull(
-                actual,
-                fieldName);
+	/**
+	 * Validate Object Null.
+	 */
+	public static void validateNull(Object actual, String fieldName) {
 
-        LOGGER.info("Null Validation Passed : {}", fieldName);
+		FieldValidator.validateNull(actual, fieldName);
 
-        ExtentTestManager.pass(
-                "Null Validation Passed : " + fieldName);
-    }
+		LOGGER.info("Null Validation Passed : {}", fieldName);
 
-    /**
-     * Validate Object Not Null.
-     */
-    public static void validateNotNull(
-            Object actual,
-            String fieldName) {
+		ExtentTestManager.pass("Null Validation Passed : " + fieldName);
+	}
 
-        FieldValidator.validateNotNull(
-                actual,
-                fieldName);
+	/**
+	 * Validate Object Not Null.
+	 */
+	public static void validateNotNull(Object actual, String fieldName) {
 
-        LOGGER.info("Not Null Validation Passed : {}", fieldName);
+		FieldValidator.validateNotNull(actual, fieldName);
 
-        ExtentTestManager.pass(
-                "Not Null Validation Passed : " + fieldName);
-    }
+		LOGGER.info("Not Null Validation Passed : {}", fieldName);
+
+		ExtentTestManager.pass("Not Null Validation Passed : " + fieldName);
+	}
 
 }
-    
-    
-    
-    
-    
-    
