@@ -18,7 +18,7 @@ public class GetBookingSteps {
 
 		// Execute GET
 		ApiExecutor.execute(endpointKey, HttpMethod.GET, ConfigManager.getProperty("booker.base.url"), null,
-				ApiExecutor.createPathParams("bookingId"));
+				ApiExecutor.createPathParams("bookingId"),null);
 	}
 
 	@Then("the get booking response status code should be {int}")

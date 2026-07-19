@@ -81,6 +81,9 @@ public final class RestClient {
                         "Unsupported HTTP Method : "
                                 + request.getMethod());
         }
+        System.out.println("========== RESPONSE ==========");
+        response.prettyPrint();
+        System.out.println("==============================");
 
         LOGGER.info("Status Code : {}", response.getStatusCode());
         LOGGER.info("Response Time : {} ms", response.getTime());

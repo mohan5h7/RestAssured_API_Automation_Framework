@@ -1,8 +1,8 @@
 {
-  "booker": {
-    "auth": "/auth",
-    "booking": "/booking",
-    "bookingById": "/booking/{bookingId}"
+	"booker": {
+	    "auth": "/auth",
+	    "booking": "/booking",
+	    "bookingById": "/booking/{bookingId}"
   },
   "grocery": {
     "products": "/products"

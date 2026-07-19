@@ -42,7 +42,7 @@ public final class ApiExecutor {
 	 * Create ApiRequest object.
 	 */
 	public static <T> ApiRequest createRequest(String endpointKey, HttpMethod method, String baseUrl, T body,
-			Map<String, Object> pathParams) {
+			Map<String, Object> pathParams, Map<String, String> headers) {
 
 		ApiRequest request = new ApiRequest();
 
@@ -55,7 +55,9 @@ public final class ApiExecutor {
 		request.setBody(body);
 
 		request.setPathParams(pathParams);
-
+		
+		request.setHeaders(headers);
+		
 		return request;
 	}
 
@@ -65,9 +67,9 @@ public final class ApiExecutor {
 	 * Supports GET, POST, PUT, PATCH and DELETE requests.
 	 */
 	public static <T> Response execute(String endpointKey, HttpMethod method, String baseUrl, T body,
-			Map<String, Object> pathParams) {
+			Map<String, Object> pathParams, Map<String, String> headers) {
 
-		ApiRequest request = createRequest(endpointKey, method, baseUrl, body, pathParams);
+		ApiRequest request = createRequest(endpointKey, method, baseUrl, body, pathParams, headers);
 
 		return execute(request);
 	}
@@ -309,6 +311,34 @@ public final class ApiExecutor {
 	    }
 
 	    return pathParams;
+	}
+	/**
+	 * Create Cookies from ApiContext.
+	 *
+	 * Example:
+	 * createCookies("token")
+	 *
+	 * Returns:
+	 * {
+	 *     "token" : "37c4b5c414677b7"
+	 * }
+	 */
+	public static java.util.Map<String, String> createCookies(String... contextKeys) {
+
+	    java.util.Map<String, String> cookies = new java.util.HashMap<>();
+
+	    for (String key : contextKeys) {
+
+	        Object value = ApiContext.get(key);
+
+	        if (value == null) {
+	            throw new RuntimeException("Context value not found : " + key);
+	        }
+
+	        cookies.put(key, value.toString());
+	    }
+
+	    return cookies;
 	}
 
 	/**

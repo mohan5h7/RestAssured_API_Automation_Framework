@@ -18,9 +18,20 @@ public final class AuthManager {
     }
 
     /**
-     * Returns Authentication Headers
+     * Returns Authentication Headers using default Content-Type
+     * from config.properties.
      */
-    public static synchronized Map<String, String> getAuthenticationHeaders() {
+    public static synchronized Map<String, String> getHeaders() {
+
+        return getHeaders(
+                ConfigManager.getProperty("content.type"));
+
+    }
+
+    /**
+     * Returns Authentication Headers using specified Content-Type.
+     */
+    public static synchronized Map<String, String> getHeaders(String contentType) {
 
         if (token == null || token.isBlank()) {
 
@@ -30,9 +41,11 @@ public final class AuthManager {
 
         Map<String, String> headers = new HashMap<>();
 
-        headers.put(
-                "Content-Type",
-                ConfigManager.getProperty("content.type"));
+        if (contentType != null && !contentType.isBlank()) {
+
+            headers.put("Content-Type", contentType);
+
+        }
 
         headers.put(
                 "Accept",
@@ -45,22 +58,44 @@ public final class AuthManager {
 
             case "cookie":
 
-                headers.put("Cookie",
+                headers.put(
+                        "Cookie",
                         "token=" + token);
 
                 break;
 
             case "bearer":
 
-                headers.put("Authorization",
+                headers.put(
+                        "Authorization",
                         "Bearer " + token);
 
                 break;
 
             case "apikey":
 
-                headers.put("x-api-key",
+                headers.put(
+                        "x-api-key",
                         token);
+
+                break;
+
+            case "basic":
+
+                String username =
+                        ConfigManager.getProperty("username");
+
+                String password =
+                        ConfigManager.getProperty("password");
+
+                String credentials =
+                        java.util.Base64.getEncoder()
+                                .encodeToString(
+                                        (username + ":" + password).getBytes());
+
+                headers.put(
+                        "Authorization",
+                        "Basic " + credentials);
 
                 break;
 
@@ -77,7 +112,7 @@ public final class AuthManager {
     }
 
     /**
-     * Generate Authentication Token
+     * Generate Authentication Token.
      */
     private static synchronized void generateToken() {
 
@@ -117,7 +152,7 @@ public final class AuthManager {
     }
 
     /**
-     * Returns Generated Token
+     * Returns Generated Token.
      */
     public static String getToken() {
 
@@ -128,6 +163,15 @@ public final class AuthManager {
         }
 
         return token;
+
+    }
+
+    /**
+     * Clears cached token.
+     */
+    public static void clearToken() {
+
+        token = null;
 
     }
 

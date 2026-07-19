@@ -1,0 +1,11 @@
+{
+  "firstname": "Navya",
+  "lastname": "Reddy",
+  "totalprice": 5000,
+  "depositpaid": true,
+  "bookingdates": {
+    "checkin": "2026-07-20",
+    "checkout": "2026-07-25"
+  },
+  "additionalneeds": "Lunch"
+}

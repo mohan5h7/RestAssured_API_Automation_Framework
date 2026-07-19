@@ -25,7 +25,7 @@ public class BookingSteps {
 	public void i_send_a_post_request_to_endpoint(String endpointKey) {
 
 		ApiExecutor.execute(endpointKey, HttpMethod.POST, ConfigManager.getProperty("booker.base.url"), requestBody,
-				null);
+				null,null);
 	}
 
 	@Then("the create booking response status code should be {int}")
