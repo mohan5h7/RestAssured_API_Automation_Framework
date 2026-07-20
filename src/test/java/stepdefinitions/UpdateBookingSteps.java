@@ -39,8 +39,7 @@ public class UpdateBookingSteps {
 	@When("I send a PUT request to endpoint {string}")
 	public void i_send_a_put_request_to_endpoint(String endpointKey) {
 
-		UpdateBookingRequest request =
-		        ApiContext.get(ContextConstants.REQUEST);
+		UpdateBookingRequest request = ApiContext.get(ContextConstants.REQUEST);
 		System.out.println(request);
 		System.out.println(ApiExecutor.createPathParams("bookingId"));
 		System.out.println(AuthManager.getHeaders());

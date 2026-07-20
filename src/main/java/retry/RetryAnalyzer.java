@@ -8,32 +8,26 @@ import logging.LoggerManager;
 
 public class RetryAnalyzer implements IRetryAnalyzer {
 
-    private static final Logger LOGGER =
-            LoggerManager.getLogger(RetryAnalyzer.class);
+	private static final Logger LOGGER = LoggerManager.getLogger(RetryAnalyzer.class);
 
-    private static final int MAX_RETRY_COUNT = 2;
+	private static final int MAX_RETRY_COUNT = 2;
 
-    private int retryCount = 0;
+	private int retryCount = 0;
 
-    @Override
-    public boolean retry(ITestResult result) {
+	@Override
+	public boolean retry(ITestResult result) {
 
-        if (retryCount < MAX_RETRY_COUNT) {
+		if (retryCount < MAX_RETRY_COUNT) {
 
-            retryCount++;
+			retryCount++;
 
-            LOGGER.info(
-                    "Retrying Test : {} | Retry Attempt : {}",
-                    result.getName(),
-                    retryCount);
+			LOGGER.info("Retrying Test : {} | Retry Attempt : {}", result.getName(), retryCount);
 
-            return true;
-        }
+			return true;
+		}
 
-        LOGGER.info(
-                "Retry limit reached for Test : {}",
-                result.getName());
+		LOGGER.info("Retry limit reached for Test : {}", result.getName());
 
-        return false;
-    }
+		return false;
+	}
 }

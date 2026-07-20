@@ -12,6 +12,7 @@ import utils.JsonReader;
 import org.apache.logging.log4j.Logger;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import config.EndpointManager;
 import validators.FieldValidator;
@@ -55,9 +56,9 @@ public final class ApiExecutor {
 		request.setBody(body);
 
 		request.setPathParams(pathParams);
-		
+
 		request.setHeaders(headers);
-		
+
 		return request;
 	}
 
@@ -73,7 +74,6 @@ public final class ApiExecutor {
 
 		return execute(request);
 	}
-	
 
 	/**
 	 * Execute ApiRequest.
@@ -88,9 +88,6 @@ public final class ApiExecutor {
 
 		return response;
 	}
-
-	
-	
 
 	/**
 	 * Validate Status Code
@@ -267,6 +264,22 @@ public final class ApiExecutor {
 	}
 
 	/**
+	 * Validate Response POJO List.
+	 */
+	public static <T> void validatePojoList(String expectedJson, Class<T> clazz) {
+
+		LOGGER.info("Validating Response POJO List");
+
+		Response response = ApiContext.get(ContextConstants.RESPONSE);
+
+		List<T> expected = JsonReader.readJsonAsPojoList(expectedJson, clazz);
+
+		List<T> actual = response.jsonPath().getList("", clazz);
+
+		ResponseValidator.validatePojo(actual, expected);
+	}
+
+	/**
 	 * Extract response field and store into ApiContext.
 	 *
 	 * Example: storeResponseField("bookingid", "id");
@@ -286,59 +299,30 @@ public final class ApiExecutor {
 		ExtentTestManager
 				.pass("Stored Response Field [" + jsonPath + "] as Context Key [" + contextKey + "] : " + value);
 	}
+
 	/**
 	 * Create Path Parameters from ApiContext.
 	 *
-	 * Example:
-	 * createPathParams("bookingId");
+	 * Example: createPathParams("bookingId");
 	 *
-	 * Example:
-	 * createPathParams("employeeId", "departmentId");
+	 * Example: createPathParams("employeeId", "departmentId");
 	 */
 	public static Map<String, Object> createPathParams(String... contextKeys) {
 
-	    Map<String, Object> pathParams = new HashMap<>();
+		Map<String, Object> pathParams = new HashMap<>();
 
-	    for (String key : contextKeys) {
+		for (String key : contextKeys) {
 
-	        Object value = getFromContext(key);
+			Object value = getFromContext(key);
 
-	        if (value == null) {
-	            throw new RuntimeException("Context value not found : " + key);
-	        }
+			if (value == null) {
+				throw new RuntimeException("Context value not found : " + key);
+			}
 
-	        pathParams.put(key, value);
-	    }
+			pathParams.put(key, value);
+		}
 
-	    return pathParams;
-	}
-	/**
-	 * Create Cookies from ApiContext.
-	 *
-	 * Example:
-	 * createCookies("token")
-	 *
-	 * Returns:
-	 * {
-	 *     "token" : "37c4b5c414677b7"
-	 * }
-	 */
-	public static java.util.Map<String, String> createCookies(String... contextKeys) {
-
-	    java.util.Map<String, String> cookies = new java.util.HashMap<>();
-
-	    for (String key : contextKeys) {
-
-	        Object value = ApiContext.get(key);
-
-	        if (value == null) {
-	            throw new RuntimeException("Context value not found : " + key);
-	        }
-
-	        cookies.put(key, value.toString());
-	    }
-
-	    return cookies;
+		return pathParams;
 	}
 
 	/**
@@ -353,6 +337,20 @@ public final class ApiExecutor {
 		LOGGER.info("Extracted {} : {}", jsonPath, value);
 
 		return value;
+	}
+
+	/**
+	 * Extract List from Response.
+	 */
+	public static <T> List<T> extractList(String jsonPath, Class<T> clazz) {
+
+		Response response = ApiContext.get(ContextConstants.RESPONSE);
+
+		List<T> values = response.jsonPath().getList(jsonPath, clazz);
+
+		LOGGER.info("Extracted List from {}", jsonPath);
+
+		return values;
 	}
 
 	/**

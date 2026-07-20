@@ -10,18 +10,18 @@ import org.apache.logging.log4j.Logger;
  */
 public final class LoggerManager {
 
-    private LoggerManager() {
-        // Prevent instantiation
-    }
+	private LoggerManager() {
+		// Prevent instantiation
+	}
 
-    /**
-     * Returns logger for the given class.
-     *
-     * @param clazz Class object
-     * @return Logger instance
-     */
-    public static Logger getLogger(Class<?> clazz) {
-        return LogManager.getLogger(clazz);
-    }
+	/**
+	 * Returns logger for the given class.
+	 *
+	 * @param clazz Class object
+	 * @return Logger instance
+	 */
+	public static Logger getLogger(Class<?> clazz) {
+		return LogManager.getLogger(clazz);
+	}
 
 }

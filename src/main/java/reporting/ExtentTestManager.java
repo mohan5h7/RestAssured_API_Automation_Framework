@@ -4,83 +4,81 @@ import com.aventstack.extentreports.ExtentTest;
 
 public final class ExtentTestManager {
 
-    private static final ThreadLocal<ExtentTest> TEST = new ThreadLocal<>();
+	private static final ThreadLocal<ExtentTest> TEST = new ThreadLocal<>();
 
-    private ExtentTestManager() {
-    }
+	private ExtentTestManager() {
+	}
 
-    /**
-     * Start Test with Test Name
-     */
-    public static void startTest(String testName) {
+	/**
+	 * Start Test with Test Name
+	 */
+	public static void startTest(String testName) {
 
-        startTest(testName, "");
+		startTest(testName, "");
 
-    }
+	}
 
-    /**
-     * Start Test with Test Name and Description
-     */
-    public static void startTest(String testName,
-                                 String description) {
+	/**
+	 * Start Test with Test Name and Description
+	 */
+	public static void startTest(String testName, String description) {
 
-        ExtentTest test = ExtentManager.getInstance()
-                .createTest(testName, description);
+		ExtentTest test = ExtentManager.getInstance().createTest(testName, description);
 
-        TEST.set(test);
+		TEST.set(test);
 
-    }
+	}
 
-    /**
-     * Get Current Test
-     */
-    public static ExtentTest getTest() {
+	/**
+	 * Get Current Test
+	 */
+	public static ExtentTest getTest() {
 
-        return TEST.get();
+		return TEST.get();
 
-    }
+	}
 
-    /**
-     * Remove Current Test
-     */
-    public static void endTest() {
+	/**
+	 * Remove Current Test
+	 */
+	public static void endTest() {
 
-        TEST.remove();
+		TEST.remove();
 
-    }
+	}
 
-    //================ Logging Methods ================//
+	// ================ Logging Methods ================//
 
-    public static void info(String message) {
+	public static void info(String message) {
 
-        if (TEST.get() != null) {
-            TEST.get().info(message);
-        }
+		if (TEST.get() != null) {
+			TEST.get().info(message);
+		}
 
-    }
+	}
 
-    public static void pass(String message) {
+	public static void pass(String message) {
 
-        if (TEST.get() != null) {
-            TEST.get().pass(message);
-        }
+		if (TEST.get() != null) {
+			TEST.get().pass(message);
+		}
 
-    }
+	}
 
-    public static void fail(String message) {
+	public static void fail(String message) {
 
-        if (TEST.get() != null) {
-            TEST.get().fail(message);
-        }
+		if (TEST.get() != null) {
+			TEST.get().fail(message);
+		}
 
-    }
+	}
 
-    public static void warning(String message) {
+	public static void warning(String message) {
 
-        if (TEST.get() != null) {
-            TEST.get().warning(message);
-        }
+		if (TEST.get() != null) {
+			TEST.get().warning(message);
+		}
 
-    }
+	}
 
 }

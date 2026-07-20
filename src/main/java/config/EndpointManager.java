@@ -7,65 +7,60 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public final class EndpointManager {
 
-    private static final JsonNode endpointConfig;
+	private static final JsonNode endpointConfig;
 
-    static {
-        endpointConfig = loadEndpoints();
-    }
+	static {
+		endpointConfig = loadEndpoints();
+	}
 
-    private EndpointManager() {
-        // Prevent object creation
-    }
+	private EndpointManager() {
+		// Prevent object creation
+	}
 
-    /**
-     * Load endpoints.json
-     */
-    private static JsonNode loadEndpoints() {
+	/**
+	 * Load endpoints.json
+	 */
+	private static JsonNode loadEndpoints() {
 
-        try (InputStream inputStream = EndpointManager.class
-                .getClassLoader()
-                .getResourceAsStream("config/endpoints.json")) {
+		try (InputStream inputStream = EndpointManager.class.getClassLoader()
+				.getResourceAsStream("config/endpoints.json")) {
 
-            if (inputStream == null) {
-                throw new RuntimeException("endpoints.json not found");
-            }
+			if (inputStream == null) {
+				throw new RuntimeException("endpoints.json not found");
+			}
 
-            ObjectMapper objectMapper = new ObjectMapper();
+			ObjectMapper objectMapper = new ObjectMapper();
 
-            return objectMapper.readTree(inputStream);
+			return objectMapper.readTree(inputStream);
 
-        } catch (Exception exception) {
+		} catch (Exception exception) {
 
-            throw new RuntimeException(
-                    "Failed to load endpoints.json",
-                    exception);
+			throw new RuntimeException("Failed to load endpoints.json", exception);
 
-        }
-    }
+		}
+	}
 
-    /**
-     * Get endpoint by key
-     *
-     * Example:
-     * EndpointManager.get("booker.booking");
-     */
-    public static String get(String key) {
+	/**
+	 * Get endpoint by key
+	 *
+	 * Example: EndpointManager.get("booker.booking");
+	 */
+	public static String get(String key) {
 
-        String[] keys = key.split("\\.");
+		String[] keys = key.split("\\.");
 
-        JsonNode currentNode = endpointConfig;
+		JsonNode currentNode = endpointConfig;
 
-        for (String currentKey : keys) {
+		for (String currentKey : keys) {
 
-            currentNode = currentNode.path(currentKey);
+			currentNode = currentNode.path(currentKey);
 
-            if (currentNode.isMissingNode()) {
-                throw new RuntimeException(
-                        "Endpoint not found : " + key);
-            }
-        }
+			if (currentNode.isMissingNode()) {
+				throw new RuntimeException("Endpoint not found : " + key);
+			}
+		}
 
-        return currentNode.asText();
-    }
+		return currentNode.asText();
+	}
 
 }

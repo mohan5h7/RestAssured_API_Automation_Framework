@@ -1,10 +1,6 @@
 package enums;
 
 public enum HttpMethod {
-	
-	GET,
-    POST,
-    PUT,
-    PATCH,
-    DELETE
+
+	GET, POST, PUT, PATCH, DELETE
 }

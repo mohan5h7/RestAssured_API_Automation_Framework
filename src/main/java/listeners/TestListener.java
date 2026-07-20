@@ -17,83 +17,75 @@ import logging.LoggerManager;
  */
 public class TestListener implements ITestListener {
 
-    private static final Logger LOGGER =
-            LoggerManager.getLogger(TestListener.class);
+	private static final Logger LOGGER = LoggerManager.getLogger(TestListener.class);
 
-    @Override
-    public void onStart(ITestContext context) {
+	@Override
+	public void onStart(ITestContext context) {
 
-        LOGGER.info("==============================================");
-        LOGGER.info("Test Suite Started : {}", context.getName());
-        LOGGER.info("==============================================");
+		LOGGER.info("==============================================");
+		LOGGER.info("Test Suite Started : {}", context.getName());
+		LOGGER.info("==============================================");
 
-    }
+	}
 
-    @Override
-    public void onTestStart(ITestResult result) {
+	@Override
+	public void onTestStart(ITestResult result) {
 
-        LOGGER.info("Test Started : {}",
-                result.getMethod().getMethodName());
+		LOGGER.info("Test Started : {}", result.getMethod().getMethodName());
 
-        ExtentTestManager.info(
-                "Test Started : " + result.getMethod().getMethodName());
+		ExtentTestManager.info("Test Started : " + result.getMethod().getMethodName());
 
-    }
+	}
 
-    @Override
-    public void onTestSuccess(ITestResult result) {
+	@Override
+	public void onTestSuccess(ITestResult result) {
 
-        LOGGER.info("Test Passed : {}",
-                result.getMethod().getMethodName());
+		LOGGER.info("Test Passed : {}", result.getMethod().getMethodName());
 
-        ExtentTestManager.pass("Test Passed");
+		ExtentTestManager.pass("Test Passed");
 
-    }
+	}
 
-    @Override
-    public void onTestFailure(ITestResult result) {
+	@Override
+	public void onTestFailure(ITestResult result) {
 
-        LOGGER.error("Test Failed : {}",
-                result.getMethod().getMethodName());
+		LOGGER.error("Test Failed : {}", result.getMethod().getMethodName());
 
-        LOGGER.error(result.getThrowable());
+		LOGGER.error(result.getThrowable());
 
-        if (result.getThrowable() != null) {
-            ExtentTestManager.fail(
-                    result.getThrowable().getMessage());
-        } else {
-            ExtentTestManager.fail("Test Failed");
-        }
+		if (result.getThrowable() != null) {
+			ExtentTestManager.fail(result.getThrowable().getMessage());
+		} else {
+			ExtentTestManager.fail("Test Failed");
+		}
 
-    }
+	}
 
-    @Override
-    public void onTestSkipped(ITestResult result) {
+	@Override
+	public void onTestSkipped(ITestResult result) {
 
-        LOGGER.warn("Test Skipped : {}",
-                result.getMethod().getMethodName());
+		LOGGER.warn("Test Skipped : {}", result.getMethod().getMethodName());
 
-        ExtentTestManager.warning("Test Skipped");
+		ExtentTestManager.warning("Test Skipped");
 
-    }
+	}
 
-    @Override
-    public void onTestFailedButWithinSuccessPercentage(
-            ITestResult result) {
+	@Override
+	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
 
-        // Not Used
+		// Not Used
 
-    }
+	}
 
-    @Override
-    public void onFinish(ITestContext context) {
+	@Override
+	public void onFinish(ITestContext context) {
 
-        LOGGER.info("==============================================");
-        LOGGER.info("Test Suite Finished : {}", context.getName());
-        LOGGER.info("==============================================");
+		LOGGER.info("==============================================");
+		LOGGER.info("Test Suite Finished : {}", context.getName());
+		LOGGER.info("==============================================");
 
-        ExtentManager.flush();
+		ExtentManager.flush();
 
-    }
+	}
 
 }

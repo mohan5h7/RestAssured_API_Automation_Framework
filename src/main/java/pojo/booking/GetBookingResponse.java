@@ -2,63 +2,63 @@ package pojo.booking;
 
 public class GetBookingResponse {
 
-    private String firstname;
+	private String firstname;
 
-    private String lastname;
+	private String lastname;
 
-    private int totalprice;
+	private int totalprice;
 
-    private boolean depositpaid;
+	private boolean depositpaid;
 
-    private BookingDates bookingdates;
+	private BookingDates bookingdates;
 
-    private String additionalneeds;
+	private String additionalneeds;
 
-    public String getFirstname() {
-        return firstname;
-    }
+	public String getFirstname() {
+		return firstname;
+	}
 
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
+	public void setFirstname(String firstname) {
+		this.firstname = firstname;
+	}
 
-    public String getLastname() {
-        return lastname;
-    }
+	public String getLastname() {
+		return lastname;
+	}
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
+	public void setLastname(String lastname) {
+		this.lastname = lastname;
+	}
 
-    public int getTotalprice() {
-        return totalprice;
-    }
+	public int getTotalprice() {
+		return totalprice;
+	}
 
-    public void setTotalprice(int totalprice) {
-        this.totalprice = totalprice;
-    }
+	public void setTotalprice(int totalprice) {
+		this.totalprice = totalprice;
+	}
 
-    public boolean isDepositpaid() {
-        return depositpaid;
-    }
+	public boolean isDepositpaid() {
+		return depositpaid;
+	}
 
-    public void setDepositpaid(boolean depositpaid) {
-        this.depositpaid = depositpaid;
-    }
+	public void setDepositpaid(boolean depositpaid) {
+		this.depositpaid = depositpaid;
+	}
 
-    public BookingDates getBookingdates() {
-        return bookingdates;
-    }
+	public BookingDates getBookingdates() {
+		return bookingdates;
+	}
 
-    public void setBookingdates(BookingDates bookingdates) {
-        this.bookingdates = bookingdates;
-    }
+	public void setBookingdates(BookingDates bookingdates) {
+		this.bookingdates = bookingdates;
+	}
 
-    public String getAdditionalneeds() {
-        return additionalneeds;
-    }
+	public String getAdditionalneeds() {
+		return additionalneeds;
+	}
 
-    public void setAdditionalneeds(String additionalneeds) {
-        this.additionalneeds = additionalneeds;
-    }
+	public void setAdditionalneeds(String additionalneeds) {
+		this.additionalneeds = additionalneeds;
+	}
 }

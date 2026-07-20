@@ -15,276 +15,207 @@ import java.util.regex.Pattern;
 /**
  * Generic Field Validation Utility.
  *
- * Contains reusable validation methods
- * that can be used across all APIs.
+ * Contains reusable validation methods that can be used across all APIs.
  */
 public final class FieldValidator {
 
-    private static final Logger LOGGER =
-            LoggerManager.getLogger(FieldValidator.class);
+	private static final Logger LOGGER = LoggerManager.getLogger(FieldValidator.class);
 
-    private FieldValidator() {
-    }
+	private FieldValidator() {
+	}
 
-    /**
-     * Validate equality.
-     */
-    public static void validateEquals(Object actual,
-                                      Object expected,
-                                      String fieldName) {
+	/**
+	 * Validate equality.
+	 */
+	public static void validateEquals(Object actual, Object expected, String fieldName) {
 
-        Assert.assertEquals(
-                actual,
-                expected,
-                "Mismatch in field : " + fieldName);
+		Assert.assertEquals(actual, expected, "Mismatch in field : " + fieldName);
 
-        LOGGER.info("Field Validation Passed : {}", fieldName);
+		LOGGER.info("Field Validation Passed : {}", fieldName);
 
-        ExtentTestManager.pass(
-                "Field Validation Passed : " + fieldName);
+		ExtentTestManager.pass("Field Validation Passed : " + fieldName);
 
-    }
+	}
 
-    /**
-     * Validate inequality.
-     */
-    public static void validateNotEquals(Object actual,
-                                         Object expected,
-                                         String fieldName) {
+	/**
+	 * Validate inequality.
+	 */
+	public static void validateNotEquals(Object actual, Object expected, String fieldName) {
 
-        Assert.assertNotEquals(
-                actual,
-                expected,
-                "Unexpected value in field : " + fieldName);
+		Assert.assertNotEquals(actual, expected, "Unexpected value in field : " + fieldName);
 
-        LOGGER.info("Field Not Equals Validation Passed : {}", fieldName);
+		LOGGER.info("Field Not Equals Validation Passed : {}", fieldName);
 
-        ExtentTestManager.pass(
-                "Field Not Equals Validation Passed : " + fieldName);
+		ExtentTestManager.pass("Field Not Equals Validation Passed : " + fieldName);
 
-    }
+	}
 
-    /**
-     * Validate null.
-     */
-    public static void validateNull(Object actual,
-                                    String fieldName) {
+	/**
+	 * Validate null.
+	 */
+	public static void validateNull(Object actual, String fieldName) {
 
-        Assert.assertNull(
-                actual,
-                fieldName + " should be null");
+		Assert.assertNull(actual, fieldName + " should be null");
 
-        LOGGER.info("Null Validation Passed : {}", fieldName);
+		LOGGER.info("Null Validation Passed : {}", fieldName);
 
-        ExtentTestManager.pass(
-                "Null Validation Passed : " + fieldName);
+		ExtentTestManager.pass("Null Validation Passed : " + fieldName);
 
-    }
+	}
 
-    /**
-     * Validate not null.
-     */
-    public static void validateNotNull(Object actual,
-                                       String fieldName) {
+	/**
+	 * Validate not null.
+	 */
+	public static void validateNotNull(Object actual, String fieldName) {
 
-        Assert.assertNotNull(
-                actual,
-                fieldName + " should not be null");
+		Assert.assertNotNull(actual, fieldName + " should not be null");
 
-        LOGGER.info("Not Null Validation Passed : {}", fieldName);
+		LOGGER.info("Not Null Validation Passed : {}", fieldName);
 
-        ExtentTestManager.pass(
-                "Not Null Validation Passed : " + fieldName);
+		ExtentTestManager.pass("Not Null Validation Passed : " + fieldName);
 
-    }
+	}
 
-    /**
-     * Validate boolean true.
-     */
-    public static void validateTrue(boolean condition,
-                                    String message) {
+	/**
+	 * Validate boolean true.
+	 */
+	public static void validateTrue(boolean condition, String message) {
 
-        Assert.assertTrue(
-                condition,
-                message);
+		Assert.assertTrue(condition, message);
 
-        LOGGER.info("Boolean TRUE Validation Passed");
+		LOGGER.info("Boolean TRUE Validation Passed");
 
-        ExtentTestManager.pass(
-                "Boolean TRUE Validation Passed");
+		ExtentTestManager.pass("Boolean TRUE Validation Passed");
 
-    }
+	}
 
-    /**
-     * Validate boolean false.
-     */
-    public static void validateFalse(boolean condition,
-                                     String message) {
+	/**
+	 * Validate boolean false.
+	 */
+	public static void validateFalse(boolean condition, String message) {
 
-        Assert.assertFalse(
-                condition,
-                message);
+		Assert.assertFalse(condition, message);
 
-        LOGGER.info("Boolean FALSE Validation Passed");
+		LOGGER.info("Boolean FALSE Validation Passed");
 
-        ExtentTestManager.pass(
-                "Boolean FALSE Validation Passed");
+		ExtentTestManager.pass("Boolean FALSE Validation Passed");
 
-    }
-    /**
-     * Validate String contains.
-     */
-    public static void validateContains(String actual,
-                                        String expected,
-                                        String fieldName) {
+	}
 
-        validateNotNull(actual, fieldName);
+	/**
+	 * Validate String contains.
+	 */
+	public static void validateContains(String actual, String expected, String fieldName) {
 
-        Assert.assertTrue(
-                actual.contains(expected),
-                fieldName + " does not contain : " + expected);
+		validateNotNull(actual, fieldName);
 
-        LOGGER.info("Contains Validation Passed : {}", fieldName);
+		Assert.assertTrue(actual.contains(expected), fieldName + " does not contain : " + expected);
 
-        ExtentTestManager.pass(
-                "Contains Validation Passed : " + fieldName);
+		LOGGER.info("Contains Validation Passed : {}", fieldName);
 
-    }
+		ExtentTestManager.pass("Contains Validation Passed : " + fieldName);
 
-    /**
-     * Validate regex.
-     */
-    public static void validateMatches(String actual,
-                                       String regex,
-                                       String fieldName) {
+	}
 
-        validateNotNull(actual, fieldName);
+	/**
+	 * Validate regex.
+	 */
+	public static void validateMatches(String actual, String regex, String fieldName) {
 
-        Assert.assertTrue(
-                Pattern.matches(regex, actual),
-                fieldName + " does not match regex");
+		validateNotNull(actual, fieldName);
 
-        LOGGER.info("Regex Validation Passed : {}", fieldName);
+		Assert.assertTrue(Pattern.matches(regex, actual), fieldName + " does not match regex");
 
-        ExtentTestManager.pass(
-                "Regex Validation Passed : " + fieldName);
+		LOGGER.info("Regex Validation Passed : {}", fieldName);
 
-    }
+		ExtentTestManager.pass("Regex Validation Passed : " + fieldName);
 
-    /**
-     * Validate collection size.
-     */
-    public static void validateSize(Collection<?> collection,
-                                    int expectedSize,
-                                    String fieldName) {
+	}
 
-        validateNotNull(collection, fieldName);
+	/**
+	 * Validate collection size.
+	 */
+	public static void validateSize(Collection<?> collection, int expectedSize, String fieldName) {
 
-        Assert.assertEquals(
-                collection.size(),
-                expectedSize,
-                fieldName + " size mismatch");
+		validateNotNull(collection, fieldName);
 
-        LOGGER.info("Collection Size Validation Passed : {}", fieldName);
+		Assert.assertEquals(collection.size(), expectedSize, fieldName + " size mismatch");
 
-        ExtentTestManager.pass(
-                "Collection Size Validation Passed : " + fieldName);
+		LOGGER.info("Collection Size Validation Passed : {}", fieldName);
 
-    }
+		ExtentTestManager.pass("Collection Size Validation Passed : " + fieldName);
 
-    /**
-     * Validate map size.
-     */
-    public static void validateSize(Map<?, ?> map,
-                                    int expectedSize,
-                                    String fieldName) {
+	}
 
-        validateNotNull(map, fieldName);
+	/**
+	 * Validate map size.
+	 */
+	public static void validateSize(Map<?, ?> map, int expectedSize, String fieldName) {
 
-        Assert.assertEquals(
-                map.size(),
-                expectedSize,
-                fieldName + " size mismatch");
+		validateNotNull(map, fieldName);
 
-        LOGGER.info("Map Size Validation Passed : {}", fieldName);
+		Assert.assertEquals(map.size(), expectedSize, fieldName + " size mismatch");
 
-        ExtentTestManager.pass(
-                "Map Size Validation Passed : " + fieldName);
+		LOGGER.info("Map Size Validation Passed : {}", fieldName);
 
-    }
+		ExtentTestManager.pass("Map Size Validation Passed : " + fieldName);
 
-    /**
-     * Validate empty collection.
-     */
-    public static void validateEmpty(Collection<?> collection,
-                                     String fieldName) {
+	}
 
-        validateNotNull(collection, fieldName);
+	/**
+	 * Validate empty collection.
+	 */
+	public static void validateEmpty(Collection<?> collection, String fieldName) {
 
-        Assert.assertTrue(
-                collection.isEmpty(),
-                fieldName + " should be empty");
+		validateNotNull(collection, fieldName);
 
-        LOGGER.info("Empty Collection Validation Passed : {}", fieldName);
+		Assert.assertTrue(collection.isEmpty(), fieldName + " should be empty");
 
-        ExtentTestManager.pass(
-                "Empty Collection Validation Passed : " + fieldName);
+		LOGGER.info("Empty Collection Validation Passed : {}", fieldName);
 
-    }
+		ExtentTestManager.pass("Empty Collection Validation Passed : " + fieldName);
 
-    /**
-     * Validate not empty collection.
-     */
-    public static void validateNotEmpty(Collection<?> collection,
-                                        String fieldName) {
+	}
 
-        validateNotNull(collection, fieldName);
+	/**
+	 * Validate not empty collection.
+	 */
+	public static void validateNotEmpty(Collection<?> collection, String fieldName) {
 
-        Assert.assertFalse(
-                collection.isEmpty(),
-                fieldName + " should not be empty");
+		validateNotNull(collection, fieldName);
 
-        LOGGER.info("Not Empty Collection Validation Passed : {}", fieldName);
+		Assert.assertFalse(collection.isEmpty(), fieldName + " should not be empty");
 
-        ExtentTestManager.pass(
-                "Not Empty Collection Validation Passed : " + fieldName);
+		LOGGER.info("Not Empty Collection Validation Passed : {}", fieldName);
 
-    }
+		ExtentTestManager.pass("Not Empty Collection Validation Passed : " + fieldName);
 
-    /**
-     * Validate object identity.
-     */
-    public static void validateSame(Object actual,
-                                    Object expected,
-                                    String fieldName) {
+	}
 
-        Assert.assertTrue(
-                actual == expected,
-                fieldName + " references are different");
+	/**
+	 * Validate object identity.
+	 */
+	public static void validateSame(Object actual, Object expected, String fieldName) {
 
-        LOGGER.info("Object Identity Validation Passed : {}", fieldName);
+		Assert.assertTrue(actual == expected, fieldName + " references are different");
 
-        ExtentTestManager.pass(
-                "Object Identity Validation Passed : " + fieldName);
+		LOGGER.info("Object Identity Validation Passed : {}", fieldName);
 
-    }
+		ExtentTestManager.pass("Object Identity Validation Passed : " + fieldName);
 
-    /**
-     * Validate object equality using equals().
-     */
-    public static void validateObject(Object actual,
-                                      Object expected,
-                                      String fieldName) {
+	}
 
-        Assert.assertTrue(
-                Objects.equals(actual, expected),
-                "Mismatch in field : " + fieldName);
+	/**
+	 * Validate object equality using equals().
+	 */
+	public static void validateObject(Object actual, Object expected, String fieldName) {
 
-        LOGGER.info("Object Equality Validation Passed : {}", fieldName);
+		Assert.assertTrue(Objects.equals(actual, expected), "Mismatch in field : " + fieldName);
 
-        ExtentTestManager.pass(
-                "Object Equality Validation Passed : " + fieldName);
+		LOGGER.info("Object Equality Validation Passed : {}", fieldName);
 
-    }
+		ExtentTestManager.pass("Object Equality Validation Passed : " + fieldName);
+
+	}
 
 }

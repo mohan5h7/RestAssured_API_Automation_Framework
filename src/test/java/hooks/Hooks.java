@@ -11,41 +11,38 @@ import reporting.ExtentTestManager;
 
 public class Hooks {
 
-    @Before
-    public void beforeScenario(Scenario scenario) {
+	@Before
+	public void beforeScenario(Scenario scenario) {
 
-        ConfigManager.loadProperties();
+		ConfigManager.loadProperties();
 
-        BaseTest.initializeFramework();
+		BaseTest.initializeFramework();
 
-        ExtentTestManager.startTest(
-                scenario.getName(),
-                "Verify " + scenario.getName() + " functionality");
+		ExtentTestManager.startTest(scenario.getName(), "Verify " + scenario.getName() + " functionality");
 
-        ExtentTestManager.info(
-                "Scenario Started : " + scenario.getName());
-    }
+		ExtentTestManager.info("Scenario Started : " + scenario.getName());
+	}
 
-    @After
-    public void afterScenario(Scenario scenario) {
+	@After
+	public void afterScenario(Scenario scenario) {
 
-        if (scenario.isFailed()) {
+		if (scenario.isFailed()) {
 
-            ExtentTestManager.fail("Scenario Failed");
+			ExtentTestManager.fail("Scenario Failed");
 
-        } else {
+		} else {
 
-            ExtentTestManager.pass("Scenario Passed");
-        }
+			ExtentTestManager.pass("Scenario Passed");
+		}
 
-        // Clear thread-local data
-        ApiContext.clear();
+		// Clear thread-local data
+		ApiContext.clear();
 
-        // Write report
-        ExtentManager.flush();
+		// Write report
+		ExtentManager.flush();
 
-        BaseTest.cleanUpFramework();
+		BaseTest.cleanUpFramework();
 
-        ExtentTestManager.endTest();
-    }
+		ExtentTestManager.endTest();
+	}
 }

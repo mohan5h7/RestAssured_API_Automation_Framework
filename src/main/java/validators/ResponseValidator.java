@@ -55,7 +55,6 @@ public final class ResponseValidator {
 		ExtentTestManager.pass("Schema Validation Passed : " + schemaPath);
 	}
 
-
 	/**
 	 * Validate Complete POJO.
 	 */

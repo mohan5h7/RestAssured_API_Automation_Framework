@@ -22,7 +22,7 @@ public final class TestDataFactory {
 
 		// Execute POST Request
 		ApiExecutor.execute("booker.booking", HttpMethod.POST, ConfigManager.getProperty("booker.base.url"), request,
-				null,null);
+				null, null);
 
 		// Store bookingId into ApiContext
 		ApiExecutor.storeResponseField("bookingid", "bookingId");
@@ -37,8 +37,8 @@ public final class TestDataFactory {
 		AuthRequest request = ApiExecutor.loadRequest("auth/AuthRequest.json", AuthRequest.class);
 
 		// Execute Auth API
-		ApiExecutor.execute("booker.auth", HttpMethod.POST, ConfigManager.getProperty("booker.base.url"), request,
-				null,null);
+		ApiExecutor.execute("booker.auth", HttpMethod.POST, ConfigManager.getProperty("booker.base.url"), request, null,
+				null);
 
 		// Store Token into ApiContext
 		ApiExecutor.storeResponseField("token", "token");

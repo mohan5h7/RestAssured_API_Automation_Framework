@@ -5,19 +5,19 @@ import context.ApiContext;
 
 public final class BaseTest {
 
-    private BaseTest() {
-    }
+	private BaseTest() {
+	}
 
-    public static void initializeFramework() {
+	public static void initializeFramework() {
 
-        ConfigManager.loadProperties();
+		ConfigManager.loadProperties();
 
-    }
+	}
 
-    public static void cleanUpFramework() {
-    	
-    	ApiContext.clear();
-       
-    }
+	public static void cleanUpFramework() {
+
+		ApiContext.clear();
+
+	}
 
 }

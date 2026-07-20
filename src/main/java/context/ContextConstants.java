@@ -7,13 +7,13 @@ package context;
  */
 public final class ContextConstants {
 
-    private ContextConstants() {
-    }
+	private ContextConstants() {
+	}
 
-    public static final String REQUEST = "request";
+	public static final String REQUEST = "request";
 
-    public static final String RESPONSE = "response";
+	public static final String RESPONSE = "response";
 
-    public static final String TOKEN = "token";
+	public static final String TOKEN = "token";
 
 }

@@ -11,198 +11,187 @@ import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.*;
+
 /**
  * Enterprise Reflection Comparator
  *
- * Features:
- * ✔ Recursive POJO comparison
- * ✔ Nested Objects
- * ✔ Collections
- * ✔ Arrays
- * ✔ Maps
- * ✔ Ignore fields
- * ✔ Circular reference detection
+ * Features: ✔ Recursive POJO comparison ✔ Nested Objects ✔ Collections ✔ Arrays
+ * ✔ Maps ✔ Ignore fields ✔ Circular reference detection
  */
 public final class ReflectionComparator {
 
-    private static final Logger LOGGER =
-            LoggerManager.getLogger(ReflectionComparator.class);
+	private static final Logger LOGGER = LoggerManager.getLogger(ReflectionComparator.class);
 
-    private ReflectionComparator() {
-    }
+	private ReflectionComparator() {
+	}
 
-    public static void compare(Object actual,
-            Object expected) {
+	public static void compare(Object actual, Object expected) {
 
-compare(
-actual,
-expected,
-Collections.emptySet(),
-new HashSet<>());
+		compare(actual, expected, Collections.emptySet(), new HashSet<>());
 
-LOGGER.info("POJO Comparison Passed");
+		LOGGER.info("POJO Comparison Passed");
 
-ExtentTestManager.pass("POJO Comparison Passed");
+		ExtentTestManager.pass("POJO Comparison Passed");
 
-}
+	}
 
-    public static void compare(Object actual,
-            Object expected,
-            Set<String> ignoreFields) {
+	public static void compare(Object actual, Object expected, Set<String> ignoreFields) {
 
-compare(
-actual,
-expected,
-ignoreFields == null
-     ? Collections.emptySet()
-     : ignoreFields,
-new HashSet<>());
+		compare(actual, expected, ignoreFields == null ? Collections.emptySet() : ignoreFields, new HashSet<>());
 
-LOGGER.info("POJO Comparison Passed");
+		LOGGER.info("POJO Comparison Passed");
 
-ExtentTestManager.pass("POJO Comparison Passed");
+		ExtentTestManager.pass("POJO Comparison Passed");
 
-}
+	}
 
-    private static void compare(Object actual,
-                                Object expected,
-                                Set<String> ignoreFields,
-                                Set<VisitedPair> visitedPairs) {
+	private static void compare(Object actual, Object expected, Set<String> ignoreFields,
+			Set<VisitedPair> visitedPairs) {
 
-        if (actual == null && expected == null) return;
+		if (actual == null && expected == null) {
+			return;
+		}
 
-        Assert.assertNotNull(actual, "Actual object is null");
-        Assert.assertNotNull(expected, "Expected object is null");
+		Assert.assertNotNull(actual, "Actual object is null");
+		Assert.assertNotNull(expected, "Expected object is null");
 
-        Assert.assertEquals(actual.getClass(), expected.getClass(), "Object type mismatch");
+// Handle Collections first
+		if (actual instanceof Collection && expected instanceof Collection) {
 
-        VisitedPair pair = new VisitedPair(actual, expected);
-        if (!visitedPairs.add(pair)) return;
+			compareCollections((Collection<?>) actual, (Collection<?>) expected, ignoreFields, visitedPairs);
 
-        Class<?> clazz = actual.getClass();
+			return;
+		}
 
-        if (ValidationUtils.isSimpleType(clazz)) {
-            Assert.assertEquals(actual, expected, "Value mismatch");
-            return;
-        }
+// Handle Arrays
+		if (actual.getClass().isArray() && expected.getClass().isArray()) {
 
-        if (Collection.class.isAssignableFrom(clazz)) {
-            compareCollections((Collection<?>) actual, (Collection<?>) expected, ignoreFields, visitedPairs);
-            return;
-        }
+			compareArrays(actual, expected, ignoreFields, visitedPairs);
 
-        if (clazz.isArray()) {
-            compareArrays(actual, expected, ignoreFields, visitedPairs);
-            return;
-        }
+			return;
+		}
 
-        if (Map.class.isAssignableFrom(clazz)) {
-            compareMaps((Map<?, ?>) actual, (Map<?, ?>) expected, ignoreFields, visitedPairs);
-            return;
-        }
+// Handle Maps
+		if (actual instanceof Map && expected instanceof Map) {
 
-        compareFields(actual, expected, clazz, ignoreFields, visitedPairs);
-    }
+			compareMaps((Map<?, ?>) actual, (Map<?, ?>) expected, ignoreFields, visitedPairs);
 
-    private static void compareCollections(Collection<?> actual,
-                                           Collection<?> expected,
-                                           Set<String> ignoreFields,
-                                           Set<VisitedPair> visitedPairs) {
-        Assert.assertEquals(actual.size(), expected.size(), "Collection size mismatch");
+			return;
+		}
 
-        Iterator<?> actualIterator = actual.iterator();
-        Iterator<?> expectedIterator = expected.iterator();
+// Now compare class type
+		Assert.assertEquals(actual.getClass(), expected.getClass(), "Object type mismatch");
 
-        while (actualIterator.hasNext() && expectedIterator.hasNext()) {
-            compare(actualIterator.next(), expectedIterator.next(), ignoreFields, visitedPairs);
-        }
-    }
+		VisitedPair pair = new VisitedPair(actual, expected);
 
-    private static void compareArrays(Object actual,
-                                      Object expected,
-                                      Set<String> ignoreFields,
-                                      Set<VisitedPair> visitedPairs) {
-        int actualLength = Array.getLength(actual);
-        int expectedLength = Array.getLength(expected);
+		if (!visitedPairs.add(pair)) {
+			return;
+		}
 
-        Assert.assertEquals(actualLength, expectedLength, "Array length mismatch");
+		Class<?> clazz = actual.getClass();
 
-        for (int index = 0; index < actualLength; index++) {
-            compare(Array.get(actual, index), Array.get(expected, index), ignoreFields, visitedPairs);
-        }
-    }
+		if (ValidationUtils.isSimpleType(clazz)) {
 
-    private static void compareMaps(Map<?, ?> actual,
-                                    Map<?, ?> expected,
-                                    Set<String> ignoreFields,
-                                    Set<VisitedPair> visitedPairs) {
-        Assert.assertEquals(actual.size(), expected.size(), "Map size mismatch");
+			Assert.assertEquals(actual, expected);
 
-        for (Map.Entry<?, ?> entry : actual.entrySet()) {
-            Object key = entry.getKey();
-            Assert.assertTrue(expected.containsKey(key), "Missing key : " + key);
+			return;
+		}
 
-            compare(entry.getValue(), expected.get(key), ignoreFields, visitedPairs);
-        }
-    }
+		compareFields(actual, expected, clazz, ignoreFields, visitedPairs);
+	}
 
-    private static void compareFields(Object actual,
-                                      Object expected,
-                                      Class<?> clazz,
-                                      Set<String> ignoreFields,
-                                      Set<VisitedPair> visitedPairs) {
-    	for (Field field : getAllFields(clazz)) {
+	private static void compareCollections(Collection<?> actual, Collection<?> expected, Set<String> ignoreFields,
+			Set<VisitedPair> visitedPairs) {
+		Assert.assertEquals(actual.size(), expected.size(), "Collection size mismatch");
 
-    	    if (ignoreFields.contains(field.getName())) {
-    	        continue;
-    	    }
+		Iterator<?> actualIterator = actual.iterator();
+		Iterator<?> expectedIterator = expected.iterator();
 
-    	    if (Modifier.isStatic(field.getModifiers())) {
-    	        continue;
-    	    }
+		while (actualIterator.hasNext() && expectedIterator.hasNext()) {
+			compare(actualIterator.next(), expectedIterator.next(), ignoreFields, visitedPairs);
+		}
+	}
 
-    	    if (field.isSynthetic()) {
-    	        continue;
-    	    }
+	private static void compareArrays(Object actual, Object expected, Set<String> ignoreFields,
+			Set<VisitedPair> visitedPairs) {
+		int actualLength = Array.getLength(actual);
+		int expectedLength = Array.getLength(expected);
 
-            field.setAccessible(true);
-            try {
-                compare(field.get(actual), field.get(expected), ignoreFields, visitedPairs);
-            } catch (IllegalAccessException exception) {
-                throw new ValidationException("Unable to compare field : " + field.getName(), exception);
-            }
-        }
-    }
+		Assert.assertEquals(actualLength, expectedLength, "Array length mismatch");
 
-    private static List<Field> getAllFields(Class<?> clazz) {
-        List<Field> fields = new ArrayList<>();
-        while (clazz != null && clazz != Object.class) {
-            fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
-            clazz = clazz.getSuperclass();
-        }
-        return fields;
-    }
+		for (int index = 0; index < actualLength; index++) {
+			compare(Array.get(actual, index), Array.get(expected, index), ignoreFields, visitedPairs);
+		}
+	}
 
-    private static final class VisitedPair {
-        private final Object actual;
-        private final Object expected;
+	private static void compareMaps(Map<?, ?> actual, Map<?, ?> expected, Set<String> ignoreFields,
+			Set<VisitedPair> visitedPairs) {
+		Assert.assertEquals(actual.size(), expected.size(), "Map size mismatch");
 
-        private VisitedPair(Object actual, Object expected) {
-            this.actual = actual;
-            this.expected = expected;
-        }
+		for (Map.Entry<?, ?> entry : actual.entrySet()) {
+			Object key = entry.getKey();
+			Assert.assertTrue(expected.containsKey(key), "Missing key : " + key);
 
-        @Override
-        public boolean equals(Object object) {
-            if (this == object) return true;
-            if (!(object instanceof VisitedPair)) return false;
-            VisitedPair pair = (VisitedPair) object;
-            return actual == pair.actual && expected == pair.expected;
-        }
+			compare(entry.getValue(), expected.get(key), ignoreFields, visitedPairs);
+		}
+	}
 
-        @Override
-        public int hashCode() {
-            return Objects.hash(System.identityHashCode(actual), System.identityHashCode(expected));
-        }
-    }
+	private static void compareFields(Object actual, Object expected, Class<?> clazz, Set<String> ignoreFields,
+			Set<VisitedPair> visitedPairs) {
+		for (Field field : getAllFields(clazz)) {
+
+			if (ignoreFields.contains(field.getName())) {
+				continue;
+			}
+
+			if (Modifier.isStatic(field.getModifiers())) {
+				continue;
+			}
+
+			if (field.isSynthetic()) {
+				continue;
+			}
+
+			field.setAccessible(true);
+			try {
+				compare(field.get(actual), field.get(expected), ignoreFields, visitedPairs);
+			} catch (IllegalAccessException exception) {
+				throw new ValidationException("Unable to compare field : " + field.getName(), exception);
+			}
+		}
+	}
+
+	private static List<Field> getAllFields(Class<?> clazz) {
+		List<Field> fields = new ArrayList<>();
+		while (clazz != null && clazz != Object.class) {
+			fields.addAll(Arrays.asList(clazz.getDeclaredFields()));
+			clazz = clazz.getSuperclass();
+		}
+		return fields;
+	}
+
+	private static final class VisitedPair {
+		private final Object actual;
+		private final Object expected;
+
+		private VisitedPair(Object actual, Object expected) {
+			this.actual = actual;
+			this.expected = expected;
+		}
+
+		@Override
+		public boolean equals(Object object) {
+			if (this == object)
+				return true;
+			if (!(object instanceof VisitedPair))
+				return false;
+			VisitedPair pair = (VisitedPair) object;
+			return actual == pair.actual && expected == pair.expected;
+		}
+
+		@Override
+		public int hashCode() {
+			return Objects.hash(System.identityHashCode(actual), System.identityHashCode(expected));
+		}
+	}
 }

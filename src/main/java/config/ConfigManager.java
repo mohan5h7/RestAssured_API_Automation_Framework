@@ -6,71 +6,70 @@ import java.util.Properties;
 
 public final class ConfigManager {
 
-    private static final Properties properties = new Properties();
-    private static boolean loaded = false;
+	private static final Properties properties = new Properties();
+	private static boolean loaded = false;
 
-    private ConfigManager() {
-        // Prevent object creation
-    }
+	private ConfigManager() {
+		// Prevent object creation
+	}
 
-    /**
-     * Load config.properties
-     */
-    public static synchronized void loadProperties() {
+	/**
+	 * Load config.properties
+	 */
+	public static synchronized void loadProperties() {
 
-        if (loaded) {
-            return;
-        }
+		if (loaded) {
+			return;
+		}
 
-        try (InputStream inputStream = ConfigManager.class
-                .getClassLoader()
-                .getResourceAsStream("config/config-dev.properties")) {
+		try (InputStream inputStream = ConfigManager.class.getClassLoader()
+				.getResourceAsStream("config/config-dev.properties")) {
 
-            if (inputStream == null) {
-                throw new RuntimeException("config.properties not found");
-            }
+			if (inputStream == null) {
+				throw new RuntimeException("config.properties not found");
+			}
 
-            properties.load(inputStream);
+			properties.load(inputStream);
 
-            loaded = true;
+			loaded = true;
 
-        } catch (IOException e) {
+		} catch (IOException e) {
 
-            throw new RuntimeException("Unable to load config.properties", e);
+			throw new RuntimeException("Unable to load config.properties", e);
 
-        }
-    }
+		}
+	}
 
-    /**
-     * Get property value by key
-     */
-    public static String getProperty(String key) {
+	/**
+	 * Get property value by key
+	 */
+	public static String getProperty(String key) {
 
-        String value = properties.getProperty(key);
+		String value = properties.getProperty(key);
 
-        if (value == null || value.trim().isEmpty()) {
-            throw new RuntimeException("Property not found : " + key);
-        }
+		if (value == null || value.trim().isEmpty()) {
+			throw new RuntimeException("Property not found : " + key);
+		}
 
-        return value.trim();
-    }
+		return value.trim();
+	}
 
-    /**
-     * Get Integer Property
-     */
-    public static int getIntProperty(String key) {
+	/**
+	 * Get Integer Property
+	 */
+	public static int getIntProperty(String key) {
 
-        return Integer.parseInt(getProperty(key));
+		return Integer.parseInt(getProperty(key));
 
-    }
+	}
 
-    /**
-     * Get Boolean Property
-     */
-    public static boolean getBooleanProperty(String key) {
+	/**
+	 * Get Boolean Property
+	 */
+	public static boolean getBooleanProperty(String key) {
 
-        return Boolean.parseBoolean(getProperty(key));
+		return Boolean.parseBoolean(getProperty(key));
 
-    }
+	}
 
 }
